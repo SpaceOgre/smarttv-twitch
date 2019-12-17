@@ -244,7 +244,7 @@ SceneSceneBrowser.loadDataRequest = function () {
             theUrl = 'https://api.twitch.tv/kraken/streams?game=' + encodeURIComponent(SceneSceneBrowser.gameSelected) + '&limit=' + SceneSceneBrowser.ItemsLimit + '&offset=' + offset;
         }
         else if (SceneSceneBrowser.mode === SceneSceneBrowser.MODE_FOLLOWED_CHANNELS) {
-            theUrl = 'https://api.twitch.tv/kraken/users/' + encodeURIComponent(Config.data.username) + '/follows/channels?sortby=last_broadcast&direction=desc&limit=' + SceneSceneBrowser.ItemsLimit + '&offset=' + offset;
+            theUrl = 'https://api.twitch.tv/kraken/users/' + encodeURIComponent(Config.data.userid) + '/follows/channels?sortby=last_broadcast&direction=desc&limit=' + SceneSceneBrowser.ItemsLimit + '&offset=' + offset;
         }
         else {
             theUrl = 'https://api.twitch.tv/kraken/streams?limit=' + SceneSceneBrowser.ItemsLimit + '&offset=' + offset;
@@ -426,14 +426,14 @@ SceneSceneBrowser.initLanguage = function () {
     $('.label_followed_channels').html(STR_FOLLOWED_CHANNELS);
     $('.label_refresh').html(STR_REFRESH);
     $('.label_placeholder_open').attr("placeholder", STR_PLACEHOLDER_OPEN);
-
-    //Should probably be somewhere else, does not realy have anything to do with language
-    $('.label_username').text(Config.data.username);
 };
 
-SceneSceneBrowser.initUserIcon = function () {
+SceneSceneBrowser.initUserIdAndIcon = function () {
     var xmlHttp = new XMLHttpRequest();
-    var theUrl = 'https://api.twitch.tv/kraken/users/' + encodeURIComponent(Config.data.username);
+    var theUrl = 'https://api.twitch.tv/kraken/users?login=' + encodeURIComponent(Config.data.username);
+    if (Config.data.userid !== null) {
+        var theUrl = 'https://api.twitch.tv/kraken/users/' + encodeURIComponent(Config.data.userid);
+    }
     xmlHttp.ontimeout = function () { };
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState === 4) {
@@ -441,6 +441,18 @@ SceneSceneBrowser.initUserIcon = function () {
             if (user.logo && user.logo !== '') {
                 $('#user_icon').attr('src', user.logo);
             }
+
+            //Set userid if it is have not been set manually in config.js
+            if (Config.data.userid === '' && user._id && user._id !== '') {
+                Config.data.userid = user._id;
+            }
+
+            if (Config.data.username === '') {
+                Config.data.username = user.name;
+            }
+
+            //Should probably be somewhere else, does not realy have anything to do with language
+            $('.label_username').text(Config.data.username);
         }
     };
     xmlHttp.open("GET", theUrl, true);
@@ -459,8 +471,8 @@ SceneSceneBrowser.prototype.initialize = function () {
     SceneSceneBrowser.initLanguage();
 
     SceneSceneBrowser.loadingData = false;
-    if (Config.data.username && Config.data.username !== '') {
-        SceneSceneBrowser.initUserIcon();
+    if ((Config.data.username && Config.data.username !== '') || (Config.data.userid && Config.data.userid !== '')) {
+        SceneSceneBrowser.initUserIdAndIcon();
         SceneSceneBrowser.switchMode(SceneSceneBrowser.MODE_FOLLOWED_CHANNELS);
     } else {
         SceneSceneBrowser.switchMode(SceneSceneBrowser.MODE_ALL);
