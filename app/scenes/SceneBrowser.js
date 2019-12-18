@@ -1,6 +1,7 @@
 alert('SceneSceneBrowser.js loaded');
 
 SceneSceneBrowser.selectedChannel;
+SceneSceneBrowser.selectedChannelId;
 
 SceneSceneBrowser.ItemsLimit = 100;
 SceneSceneBrowser.ColoumnsCount = 4;
@@ -83,7 +84,7 @@ function sleep(millis, callback) {
         , millis);
 }
 
-SceneSceneBrowser.createCell = function (row_id, coloumn_id, data_name, thumbnail, title, info, info2, info_fill) {
+SceneSceneBrowser.createCell = function (row_id, coloumn_id, data_id, data_name, thumbnail, title, info, info2, info_fill) {
     var infostyle;
 
     if (info_fill) {
@@ -93,7 +94,7 @@ SceneSceneBrowser.createCell = function (row_id, coloumn_id, data_name, thumbnai
         infostyle = 'style="right: 20%;"';
     }
 
-    return $('<td id="cell_' + row_id + '_' + coloumn_id + '" class="stream_cell" data-channelname="' + data_name + '"></td>').html(
+    return $('<td id="cell_' + row_id + '_' + coloumn_id + '" class="stream_cell" data-channelname="' + data_name + '" data-channelid="' + data_id + '"></td>').html(
         '<img id="thumbnail_' + row_id + '_' + coloumn_id + '" class="stream_thumbnail" src="' + thumbnail + '"/> \
             <div class="stream_text" ' + infostyle + '> \
             <div class="stream_title">' + title + '</div> \
@@ -174,11 +175,11 @@ SceneSceneBrowser.loadDataSuccess = function (responseText) {
 
             if (SceneSceneBrowser.mode == SceneSceneBrowser.MODE_GAMES) {
                 var game = response.top[cursor];
-                cell = SceneSceneBrowser.createCell(row_id, t, game.game.name, game.game.box.large, game.game.name, addCommas(game.viewers) + ' Viewers', '', true);
+                cell = SceneSceneBrowser.createCell(row_id, t, game.game._id, game.game.name, game.game.box.large, game.game.name, addCommas(game.viewers) + ' Viewers', '', true);
             }
             else {
                 var stream = response.streams[cursor];
-                cell = SceneSceneBrowser.createCell(row_id, t, stream.channel.name, stream.preview.medium, stream.channel.status, stream.channel.display_name, addCommas(stream.viewers) + ' Viewers', false);
+                cell = SceneSceneBrowser.createCell(row_id, t, stream.channel._id, stream.channel.name, stream.preview.medium, stream.channel.status, stream.channel.display_name, addCommas(stream.viewers) + ' Viewers', false);
             }
 
             row.append(cell);
@@ -221,7 +222,7 @@ SceneSceneBrowser.loadDataSuccessFollowedChannels = function (responseText) {
     xmlHttp.open("GET", theUrl, true);
     xmlHttp.timeout = SceneSceneBrowser.loadingDataTimeout;
     xmlHttp.setRequestHeader('Accept', 'application/vnd.twitchtv.v5+json');
-    xmlHttp.setRequestHeader('Client-ID', 'anwtqukxvrtwxb4flazs2lqlabe3hqv');
+    xmlHttp.setRequestHeader('Client-ID', Config.clientId);
     xmlHttp.send(null);
 }
 
@@ -273,7 +274,7 @@ SceneSceneBrowser.loadDataRequest = function () {
         xmlHttp.open("GET", theUrl, true);
         xmlHttp.timeout = SceneSceneBrowser.loadingDataTimeout;
         xmlHttp.setRequestHeader('Accept', 'application/vnd.twitchtv.v5+json');
-        xmlHttp.setRequestHeader('Client-ID', 'anwtqukxvrtwxb4flazs2lqlabe3hqv');
+        xmlHttp.setRequestHeader('Client-ID', Config.clientId);
         xmlHttp.send(null);
     }
     catch (error) {
@@ -458,7 +459,7 @@ SceneSceneBrowser.initUserIdAndIcon = function () {
     xmlHttp.open("GET", theUrl, true);
     xmlHttp.timeout = SceneSceneBrowser.loadingDataTimeout;
     xmlHttp.setRequestHeader('Accept', 'application/vnd.twitchtv.v5+json');
-    xmlHttp.setRequestHeader('Client-ID', 'anwtqukxvrtwxb4flazs2lqlabe3hqv');
+    xmlHttp.setRequestHeader('Client-ID', Config.clientId);
     xmlHttp.send(null);
 }
 
@@ -584,6 +585,7 @@ SceneSceneBrowser.prototype.handleKeyDown = function (keyCode) {
             }
             else {
                 SceneSceneBrowser.selectedChannel = $('#cell_' + SceneSceneBrowser.cursorY + '_' + SceneSceneBrowser.cursorX).attr('data-channelname');
+                SceneSceneBrowser.selectedChannelId = $('#cell_' + SceneSceneBrowser.cursorY + '_' + SceneSceneBrowser.cursorX).attr('data-channelid');
                 SceneSceneBrowser.openStream();
             }
             break;

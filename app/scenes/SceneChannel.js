@@ -380,18 +380,14 @@ SceneSceneChannel.updateStreamInfo = function () {
                     $("#stream_info_viewer").text(addCommas(response.stream.viewers) + ' ' + STR_VIEWER);
                     $("#stream_info_icon").attr("src", response.stream.channel.logo);
                 }
-                catch (err) {
-
-                }
-
-            }
-            else {
+                catch (err) { }
             }
         }
     };
-    xmlHttp.open("GET", 'https://api.twitch.tv/kraken/streams/' + SceneSceneBrowser.selectedChannel, true);
+    xmlHttp.open("GET", 'https://api.twitch.tv/kraken/streams/' + SceneSceneBrowser.selectedChannelId, true);
     xmlHttp.timeout = 10000;
-    xmlHttp.setRequestHeader('Client-ID', 'anwtqukxvrtwxb4flazs2lqlabe3hqv');
+    xmlHttp.setRequestHeader('Accept', 'application/vnd.twitchtv.v5+json');
+    xmlHttp.setRequestHeader('Client-ID', Config.clientId);
     xmlHttp.send(null);
 };
 
@@ -496,7 +492,7 @@ SceneSceneChannel.loadDataRequest = function () {
         };
         xmlHttp.open("GET", theUrl, true);
         xmlHttp.timeout = SceneSceneChannel.loadingDataTimeout;
-        xmlHttp.setRequestHeader('Client-ID', 'anwtqukxvrtwxb4flazs2lqlabe3hqv');
+        xmlHttp.setRequestHeader('Client-ID', Config.clientId);
         xmlHttp.send(null);
     }
     catch (error) {
