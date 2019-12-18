@@ -25,6 +25,16 @@ For 2014 models "More apps" button might be absent, if so try: long press the en
 For models released before 2013 you might want to use these instructions instead:
 From the SmartHUB main screen, click the "Tools" button on the remote. Only from the "Tools" menu, navigate to "Settings", and from there to "Development". (You still have to be logged in as 'develop')
 
+### About this fork
+
+The original fork is https://github.com/nikitakatchik/smarttv-twitch
+
+I created this fork to add support for Followed Channels since it is the way I use Twitch the most. Since then I have also upgraded to use the Twitch API v5 instead of v3 and some other small changes.
+
+#### Status
+
+I am still working on this from time to time but because life situations I'm very limited in testing it on my TV, but if you want something fixed/added please add an issue and I can try to fix it and then you have to test it for me :)
+
 ### Followed Channels
 
-To get access your followed channels you have to unpack the Twitch_XX_YYYYMMDD.zip from releases and edit the app/script/config.js file and enter your username. Then repack everything as Twitch_XX_YYYYMMDD.zip. I'm planing to add support for this from inside the app in the future.
+To get access your followed channels you have to unpack the Twitch_XX_YYYYMMDD.zip from releases and edit the app/script/config.js file and enter your username or userid. Then repack everything as Twitch_XX_YYYYMMDD.zip. I'm planing to add support for this from inside the app in the future.
