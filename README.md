@@ -16,7 +16,7 @@ Unofficial app for legacy Samsung SmartTV's which plays Twitch live broadcasts.
 To get access your followed channels you have to unpack the Twitch_XX_YYYYMMDD.zip from releases and edit the app/script/config.js file and enter your username or userid. Then repack everything as Twitch_XX_YYYYMMDD.zip.
 
 Replace spaceogre here with your username:
-``` json
+``` javascript
 var Config = {
     data: {
         username: 'spaceogre',
