@@ -11,10 +11,33 @@ Unofficial app for legacy Samsung SmartTV's which plays Twitch live broadcasts.
 
 [Testing Your Application on a TV for 2011](https://developer.samsung.com/tv/develop/legacy-platform-library/art00013/index)
 
+### Followed Channels (optional)
 
-### Comments
+To get access your followed channels you have to unpack the Twitch_XX_YYYYMMDD.zip from releases and edit the app/script/config.js file and enter your username or userid. Then repack everything as Twitch_XX_YYYYMMDD.zip.
+
+Replace spaceogre here with your username:
+``` json
+var Config = {
+    data: {
+        username: 'spaceogre',
+        userid: ''
+    },
+    clientId: 'kimne78kx3ncx6brgo4mv6wki5h1ko',
+    webRequestTimeout: 1000,
+    //fileName: curWidget.id + "_config.db",
+    version: 3.9
+};
+```
+
+_I'm planing to add support for this from inside the app in the future._
+
+### Host the Zip file on a Computer
 
 You have to run some kind of web server or a specific app for installing SmartTV apps like SammyWidgets.
+
+_Note: I could not get SammyWidgets to work so I just used [IIS](https://en.wikipedia.org/wiki/Internet_Information_Services) and put the zip in inetput/wwwroot._
+
+### On the TV
 
 On your TV, go to Menu->Smart Features->Samsung Account and type name "develop".
 
@@ -25,16 +48,12 @@ For 2014 models "More apps" button might be absent, if so try: long press the en
 For models released before 2013 you might want to use these instructions instead:
 From the SmartHUB main screen, click the "Tools" button on the remote. Only from the "Tools" menu, navigate to "Settings", and from there to "Development". (You still have to be logged in as 'develop')
 
-### About this fork
+## About this fork
 
 The original fork is https://github.com/nikitakatchik/smarttv-twitch
 
 I created this fork to add support for Followed Channels since it is the way I use Twitch the most. Since then I have also upgraded to use the Twitch API v5 instead of v3 and some other small changes.
 
-#### Status
+### Status
 
 I am still working on this from time to time but because life situations I'm very limited in testing it on my TV, but if you want something fixed/added please add an issue and I can try to fix it and then you have to test it for me :)
-
-### Followed Channels
-
-To get access your followed channels you have to unpack the Twitch_XX_YYYYMMDD.zip from releases and edit the app/script/config.js file and enter your username or userid. Then repack everything as Twitch_XX_YYYYMMDD.zip. I'm planing to add support for this from inside the app in the future.
