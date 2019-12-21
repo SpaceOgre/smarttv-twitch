@@ -429,11 +429,13 @@ SceneSceneBrowser.initLanguage = function () {
     $('.label_placeholder_open').attr("placeholder", STR_PLACEHOLDER_OPEN);
 };
 
-SceneSceneBrowser.initUserIdAndIcon = function () {
+SceneSceneBrowser.initUser = function () {
     var xmlHttp = new XMLHttpRequest();
-    var theUrl = 'https://api.twitch.tv/kraken/users?login=' + encodeURIComponent(Config.data.username);
-    if (Config.data.userid !== null) {
-        var theUrl = 'https://api.twitch.tv/kraken/users/' + encodeURIComponent(Config.data.userid);
+    var theUrl;
+    if (Config.data.userid) {
+        theUrl = 'https://api.twitch.tv/kraken/users/' + encodeURIComponent(Config.data.userid);
+    } else {
+        theUrl = 'https://api.twitch.tv/kraken/users?login=' + encodeURIComponent(Config.data.username);
     }
     xmlHttp.ontimeout = function () { };
     xmlHttp.onreadystatechange = function () {
@@ -443,12 +445,11 @@ SceneSceneBrowser.initUserIdAndIcon = function () {
                 $('#user_icon').attr('src', user.logo);
             }
 
-            //Set userid if it is have not been set manually in config.js
-            if (Config.data.userid === '' && user._id && user._id !== '') {
+            if (!Config.data.userid && user._id) {
                 Config.data.userid = user._id;
             }
 
-            if (Config.data.username === '') {
+            if (!Config.data.username && user.name) {
                 Config.data.username = user.name;
             }
 
@@ -472,8 +473,8 @@ SceneSceneBrowser.prototype.initialize = function () {
     SceneSceneBrowser.initLanguage();
 
     SceneSceneBrowser.loadingData = false;
-    if ((Config.data.username && Config.data.username !== '') || (Config.data.userid && Config.data.userid !== '')) {
-        SceneSceneBrowser.initUserIdAndIcon();
+    if (Config.data.username || Config.data.userid) {
+        SceneSceneBrowser.initUser();
         SceneSceneBrowser.switchMode(SceneSceneBrowser.MODE_FOLLOWED_CHANNELS);
     } else {
         SceneSceneBrowser.switchMode(SceneSceneBrowser.MODE_ALL);
