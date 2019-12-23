@@ -27,6 +27,9 @@ SceneSceneChannel.playlistResponse;
 
 SceneSceneChannel.streamInfoTimer = null;
 
+SceneSceneChannel.baseChatUrlStart = 'https://www.twitch.tv/embed/';
+SceneSceneChannel.baseChatUrlEnd = '/chat';
+
 function extractStreamDeclarations(input) {
     var result = [];
 
@@ -393,11 +396,17 @@ SceneSceneChannel.updateStreamInfo = function () {
 
 SceneSceneChannel.showPanel = function () {
     SceneSceneChannel.qualityDisplay();
+    if (Config.data.enableChat) {
+        $("#scene_channel_panel_chat").attr('src', SceneSceneChannel.baseChatUrlStart + SceneSceneChannel.selectedChannel + SceneSceneChannel.baseChatUrlEnd);
+    }
     $("#scene_channel_panel").show();
 };
 
 SceneSceneChannel.hidePanel = function () {
     $("#scene_channel_panel").hide();
+    if (Config.data.enableChat) {
+        $("#scene_channel_panel_chat").attr('src', '');
+    }
     SceneSceneChannel.quality = SceneSceneChannel.qualityPlaying;
     SceneSceneChannel.qualityIndex = SceneSceneChannel.qualityPlayingIndex;
 };
