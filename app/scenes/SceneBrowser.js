@@ -28,20 +28,20 @@ SceneSceneBrowser.loadingDataTimeout;
 SceneSceneBrowser.dataEnded = false;
 
 var ScrollHelper = {
-    documentVerticalScrollPosition: function() {
+    documentVerticalScrollPosition: function () {
         if (self.pageYOffset) return self.pageYOffset; // Firefox, Chrome, Opera, Safari.
         if (document.documentElement && document.documentElement.scrollTop) return document.documentElement.scrollTop; // Internet Explorer 6 (standards mode).
         if (document.body.scrollTop) return document.body.scrollTop; // Internet Explorer 6, 7 and 8.
         return 0; // None of the above.
     },
 
-    viewportHeight: function() { return (document.compatMode === "CSS1Compat") ? document.documentElement.clientHeight : document.body.clientHeight; },
+    viewportHeight: function () { return (document.compatMode === "CSS1Compat") ? document.documentElement.clientHeight : document.body.clientHeight; },
 
-    documentHeight: function() { return (document.height !== undefined) ? document.height : document.body.offsetHeight; },
+    documentHeight: function () { return (document.height !== undefined) ? document.height : document.body.offsetHeight; },
 
-    documentMaximumScrollPosition: function() { return this.documentHeight() - this.viewportHeight(); },
+    documentMaximumScrollPosition: function () { return this.documentHeight() - this.viewportHeight(); },
 
-    elementVerticalClientPositionById: function(id) {
+    elementVerticalClientPositionById: function (id) {
         var element = document.getElementById(id);
         var rectangle = element.getBoundingClientRect();
         return rectangle.top;
@@ -53,7 +53,7 @@ var ScrollHelper = {
      * @param id The id of the element to scroll to.
      * @param padding Top padding to apply above element.
      */
-    scrollVerticalToElementById: function(id, padding) {
+    scrollVerticalToElementById: function (id, padding) {
         var element = document.getElementById(id);
         if (element == null) {
             console.warn('Cannot find element with id \'' + id + '\'.');
@@ -79,10 +79,10 @@ function addCommas(nStr) {
 }
 
 function sleep(millis, callback) {
-    setTimeout(function() { callback(); }, millis);
+    setTimeout(function () { callback(); }, millis);
 }
 
-SceneSceneBrowser.createCell = function(row_id, coloumn_id, data_id, data_name, thumbnail, title, info, info2, info_fill) {
+SceneSceneBrowser.createCell = function (row_id, coloumn_id, data_id, data_name, thumbnail, title, info, info2, info_fill) {
     var infostyle;
 
     if (info_fill) {
@@ -101,11 +101,11 @@ SceneSceneBrowser.createCell = function(row_id, coloumn_id, data_id, data_name, 
             </div>');
 };
 
-SceneSceneBrowser.createCellEmpty = function() {
+SceneSceneBrowser.createCellEmpty = function () {
     return $('<td class="stream_cell"></td>').html('');
 };
 
-SceneSceneBrowser.loadDataError = function() {
+SceneSceneBrowser.loadDataError = function () {
     SceneSceneBrowser.loadingDataTry++;
     if (SceneSceneBrowser.loadingDataTry < SceneSceneBrowser.loadingDataTryMax) {
         if (SceneSceneBrowser.loadingDataTry < 10) {
@@ -138,7 +138,7 @@ SceneSceneBrowser.loadDataError = function() {
     }
 };
 
-SceneSceneBrowser.loadDataSuccess = function(responseText) {
+SceneSceneBrowser.loadDataSuccess = function (responseText) {
     var response = $.parseJSON(responseText);
 
     var response_items;
@@ -168,7 +168,7 @@ SceneSceneBrowser.loadDataSuccess = function(responseText) {
         var row_id = offset / SceneSceneBrowser.ColoumnsCount + i;
         var row = $('<tr></tr>');
 
-        for (t = 0; t < SceneSceneBrowser.ColoumnsCount && cursor < response_items; t++, cursor++) {
+        for (t = 0; t < SceneSceneBrowser.ColoumnsCount && cursor < response_items; t++ , cursor++) {
             var cell;
 
             if (SceneSceneBrowser.mode == SceneSceneBrowser.MODE_GAMES) {
@@ -190,14 +190,14 @@ SceneSceneBrowser.loadDataSuccess = function(responseText) {
         $('#stream_table').append(row);
     }
 
-    sleep(2000, function() {
+    sleep(2000, function () {
         SceneSceneBrowser.showTable();
         SceneSceneBrowser.addFocus();
         SceneSceneBrowser.loadingData = false;
     });
 };
 
-SceneSceneBrowser.loadDataSuccessFollowedChannels = function(responseText) {
+SceneSceneBrowser.loadDataSuccessFollowedChannels = function (responseText) {
     var response = $.parseJSON(responseText);
     var followed_channels = [];
     for (var index = 0; index < response.follows.length; index++) {
@@ -206,8 +206,8 @@ SceneSceneBrowser.loadDataSuccessFollowedChannels = function(responseText) {
 
     var xmlHttp = new XMLHttpRequest();
     var theUrl = 'https://api.twitch.tv/kraken/streams?channel=' + encodeURIComponent(followed_channels.join(','));
-    xmlHttp.ontimeout = function() {};
-    xmlHttp.onreadystatechange = function() {
+    xmlHttp.ontimeout = function () { };
+    xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState === 4) {
             if (xmlHttp.status === 200) {
                 SceneSceneBrowser.loadDataSuccess(xmlHttp.responseText);
@@ -224,7 +224,7 @@ SceneSceneBrowser.loadDataSuccessFollowedChannels = function(responseText) {
     xmlHttp.send(null);
 }
 
-SceneSceneBrowser.loadDataRequest = function() {
+SceneSceneBrowser.loadDataRequest = function () {
     try {
         var dialog_title = "";
         if (SceneSceneBrowser.loadingDataTry > 0) {
@@ -249,8 +249,8 @@ SceneSceneBrowser.loadDataRequest = function() {
             theUrl = 'https://api.twitch.tv/kraken/streams?limit=' + SceneSceneBrowser.ItemsLimit + '&offset=' + offset;
         }
 
-        xmlHttp.ontimeout = function() {};
-        xmlHttp.onreadystatechange = function() {
+        xmlHttp.ontimeout = function () { };
+        xmlHttp.onreadystatechange = function () {
             if (xmlHttp.readyState === 4) {
                 if (xmlHttp.status === 200) {
                     try {
@@ -280,7 +280,7 @@ SceneSceneBrowser.loadDataRequest = function() {
     }
 };
 
-SceneSceneBrowser.loadData = function() {
+SceneSceneBrowser.loadData = function () {
     // Even though loading data after end is safe it is pointless and causes lag
     if ((SceneSceneBrowser.itemsCount % SceneSceneBrowser.ColoumnsCount != 0) || SceneSceneBrowser.loadingData) {
         return;
@@ -293,14 +293,14 @@ SceneSceneBrowser.loadData = function() {
     SceneSceneBrowser.loadDataRequest();
 };
 
-SceneSceneBrowser.showDialog = function(title) {
+SceneSceneBrowser.showDialog = function (title) {
     $("#streamname_frame").hide();
     $("#stream_table").hide();
     $("#dialog_loading_text").text(title);
     $("#dialog_loading").show();
 };
 
-SceneSceneBrowser.showTable = function() {
+SceneSceneBrowser.showTable = function () {
     $("#dialog_loading").hide();
     $("#streamname_frame").hide();
     $("#stream_table").show();
@@ -308,13 +308,13 @@ SceneSceneBrowser.showTable = function() {
     ScrollHelper.scrollVerticalToElementById('thumbnail_' + SceneSceneBrowser.cursorY + '_' + SceneSceneBrowser.cursorX, 0);
 };
 
-SceneSceneBrowser.showInput = function() {
+SceneSceneBrowser.showInput = function () {
     $("#dialog_loading").hide();
     $("#stream_table").hide();
     $("#streamname_frame").show();
 };
 
-SceneSceneBrowser.switchMode = function(mode) {
+SceneSceneBrowser.switchMode = function (mode) {
     if (mode != SceneSceneBrowser.mode) {
         SceneSceneBrowser.mode = mode;
 
@@ -346,7 +346,7 @@ SceneSceneBrowser.switchMode = function(mode) {
     }
 };
 
-SceneSceneBrowser.clean = function() {
+SceneSceneBrowser.clean = function () {
     $('#stream_table').empty();
     SceneSceneBrowser.itemsCount = 0;
     SceneSceneBrowser.cursorX = 0;
@@ -354,18 +354,18 @@ SceneSceneBrowser.clean = function() {
     SceneSceneBrowser.dataEnded = false;
 };
 
-SceneSceneBrowser.refresh = function() {
+SceneSceneBrowser.refresh = function () {
     if (SceneSceneBrowser.mode != SceneSceneBrowser.MODE_GO) {
         SceneSceneBrowser.clean();
         SceneSceneBrowser.loadData();
     }
 };
 
-SceneSceneBrowser.removeFocus = function() {
+SceneSceneBrowser.removeFocus = function () {
     $('#thumbnail_' + SceneSceneBrowser.cursorY + '_' + SceneSceneBrowser.cursorX).removeClass('stream_thumbnail_focused');
 };
 
-SceneSceneBrowser.addFocus = function() {
+SceneSceneBrowser.addFocus = function () {
     if (SceneSceneBrowser.cursorY + 5 > SceneSceneBrowser.itemsCount / SceneSceneBrowser.ColoumnsCount &&
         !SceneSceneBrowser.dataEnded) {
         SceneSceneBrowser.loadData();
@@ -376,13 +376,13 @@ SceneSceneBrowser.addFocus = function() {
     ScrollHelper.scrollVerticalToElementById('thumbnail_' + SceneSceneBrowser.cursorY + '_' + SceneSceneBrowser.cursorX, 0);
 };
 
-SceneSceneBrowser.getCellsCount = function(posY) {
+SceneSceneBrowser.getCellsCount = function (posY) {
     return Math.min(
         SceneSceneBrowser.ColoumnsCount,
         SceneSceneBrowser.itemsCount - posY * SceneSceneBrowser.ColoumnsCount);
 };
 
-SceneSceneBrowser.getRowsCount = function() {
+SceneSceneBrowser.getRowsCount = function () {
     var count = SceneSceneBrowser.itemsCount / SceneSceneBrowser.ColoumnsCount;
     if (SceneSceneBrowser.itemsCount % SceneSceneBrowser.ColoumnsCount > 0) {
         count++;
@@ -391,7 +391,7 @@ SceneSceneBrowser.getRowsCount = function() {
     return count;
 };
 
-SceneSceneBrowser.refreshInputFocus = function() {
+SceneSceneBrowser.refreshInputFocus = function () {
     $('#streamname_input').removeClass('channelname');
     $('#streamname_input').removeClass('channelname_focused');
     $('#streamname_button').removeClass('button_go');
@@ -407,7 +407,7 @@ SceneSceneBrowser.refreshInputFocus = function() {
     }
 };
 
-SceneSceneBrowser.openStream = function() {
+SceneSceneBrowser.openStream = function () {
     $(window).scrollTop(0);
     sf.scene.show('SceneChannel');
     sf.scene.hide('SceneBrowser');
@@ -418,7 +418,7 @@ function SceneSceneBrowser() {
 
 };
 
-SceneSceneBrowser.initLanguage = function() {
+SceneSceneBrowser.initLanguage = function () {
     //set correct labels
     $('.label_channels').html(STR_CHANNELS);
     $('.label_games').html(STR_GAMES);
@@ -427,7 +427,7 @@ SceneSceneBrowser.initLanguage = function() {
     $('.label_placeholder_open').attr("placeholder", STR_PLACEHOLDER_OPEN);
 };
 
-SceneSceneBrowser.initUser = function() {
+SceneSceneBrowser.initUser = function () {
     var xmlHttp = new XMLHttpRequest();
     var theUrl;
     if (Config.data.userid) {
@@ -435,36 +435,45 @@ SceneSceneBrowser.initUser = function() {
     } else {
         theUrl = 'https://api.twitch.tv/kraken/users?login=' + encodeURIComponent(Config.data.username);
     }
-    xmlHttp.ontimeout = function() {};
-    xmlHttp.onreadystatechange = function() {
+    xmlHttp.ontimeout = function () { };
+    xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState === 4) {
-            //TODO add better fault handling
-            var user;
-            if (Config.data.userid) {
-                user = $.parseJSON(xmlHttp.responseText);
-            } else {
-                var users = $.parseJSON(xmlHttp.responseText);
-                if (users.users.length === 1) {
-                    user = users.users[0];
-                } else {
-                    SceneSceneBrowser.showDialog("No user found with username: " + Config.data.username);
+            if (xmlHttp.status === 200) {
+                //TODO add better fault handling
+                try {
+                    var user;
+                    if (Config.data.userid) {
+                        user = $.parseJSON(xmlHttp.responseText);
+                    } else {
+                        var users = $.parseJSON(xmlHttp.responseText);
+                        if (users.users.length === 1) {
+                            user = users.users[0];
+                        } else {
+                            SceneSceneBrowser.showDialog("No user found with username: " + Config.data.username);
+                        }
+                    }
+
+                    if (user.logo && user.logo !== '') {
+                        $('#user_icon').attr('src', user.logo);
+                    }
+
+                    if (!Config.data.userid && user._id) {
+                        Config.data.userid = user._id;
+                    }
+
+                    if (!Config.data.username && user.name) {
+                        Config.data.username = user.name;
+                    }
+
+                    $('.label_username').text(Config.data.username);
+                } catch (error) {
+                    SceneSceneBrowser.showDialog("initUser() exception: " + err.name + ' ' + err.message);
                 }
-            }
 
-            if (user.logo && user.logo !== '') {
-                $('#user_icon').attr('src', user.logo);
             }
-
-            if (!Config.data.userid && user._id) {
-                Config.data.userid = user._id;
-            }
-
-            if (!Config.data.username && user.name) {
-                Config.data.username = user.name;
-            }
-
-            //Should probably be somewhere else, does not realy have anything to do with language
-            $('.label_username').text(Config.data.username);
+        } else {
+            //TODO Add language support
+            SceneSceneBrowser.showDialog("Failed to get user!");
         }
     };
     xmlHttp.open("GET", theUrl, true);
@@ -474,7 +483,7 @@ SceneSceneBrowser.initUser = function() {
     xmlHttp.send(null);
 }
 
-SceneSceneBrowser.prototype.initialize = function() {
+SceneSceneBrowser.prototype.initialize = function () {
     alert("SceneSceneBrowser.initialize()");
     // this function will be called only once when the scene manager show this scene first time
     // initialize the scene controls and styles, and initialize your variables here
@@ -492,29 +501,29 @@ SceneSceneBrowser.prototype.initialize = function() {
 };
 
 
-SceneSceneBrowser.prototype.handleShow = function(data) {
+SceneSceneBrowser.prototype.handleShow = function (data) {
     alert("SceneSceneBrowser.handleShow()");
     // this function will be called when the scene manager show this scene
 };
 
-SceneSceneBrowser.prototype.handleHide = function() {
+SceneSceneBrowser.prototype.handleHide = function () {
     alert("SceneSceneBrowser.handleHide()");
     // this function will be called when the scene manager hide this scene
     SceneSceneBrowser.clean();
 };
 
-SceneSceneBrowser.prototype.handleFocus = function() {
+SceneSceneBrowser.prototype.handleFocus = function () {
     alert("SceneSceneBrowser.handleFocus()");
     // this function will be called when the scene manager focus this scene
     SceneSceneBrowser.refresh();
 };
 
-SceneSceneBrowser.prototype.handleBlur = function() {
+SceneSceneBrowser.prototype.handleBlur = function () {
     alert("SceneSceneBrowser.handleBlur()");
     // this function will be called when the scene manager move focus to another scene from this scene
 };
 
-SceneSceneBrowser.prototype.handleKeyDown = function(keyCode) {
+SceneSceneBrowser.prototype.handleKeyDown = function (keyCode) {
     alert("SceneSceneBrowser.handleKeyDown(" + keyCode + ")");
 
     if (keyCode == sf.key.RETURN) {
