@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <widget xmlns="http://www.samsung.com/">
-  <cpname></cpname>
-  <cplogo></cplogo>
-  <cpauthjs></cpauthjs>
+  <cpname/>
+  <cplogo/>
+  <cpauthjs/>
   <ThumbIcon>icon/icon_106_87.png</ThumbIcon>
   <BigThumbIcon>icon/icon_115_95.png</BigThumbIcon>
   <ListIcon>icon/icon_85_70.png</ListIcon>
   <BigListIcon>icon/icon_95_78.png</BigListIcon>
-  <category></category>
+  <category/>
   <autoUpdate>n</autoUpdate>
-  <ver>3.9.2</ver>
-  <mgrver></mgrver>
+  <ver>3.9.3</ver>
+  <mgrver/>
   <fullwidget>y</fullwidget>
   <type>user</type>
   <srcctl>y</srcctl>
@@ -20,13 +19,13 @@
   <videomute>n</videomute>
   <dcont>y</dcont>
   <widgetname>Twitch</widgetname>
-  <description></description>
+  <description/>
   <width>1280</width>
   <height>720</height>
   <author>
     <name>SpaceOgre</name>
-    <email></email>
+    <email/>
     <link>https://github.com/SpaceOgre/smarttv-twitch</link>
-    <organization></organization>
+    <organization/>
   </author>
 </widget>
