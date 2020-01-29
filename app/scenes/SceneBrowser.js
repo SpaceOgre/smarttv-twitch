@@ -85,13 +85,6 @@ function sleep(millis, callback) {
 SceneSceneBrowser.createCell = function(row_id, coloumn_id, data_id, data_name, thumbnail, title, info, info2, info_fill, category) {
     var infostyle;
 
-    // if (info_fill) {
-    //     infostyle = 'style="right: 0;"';
-    // }
-    // else {
-    //     infostyle = 'style="right: 20%;"';
-    // }
-
     return $('<td id="cell_' + row_id + '_' + coloumn_id + '" class="stream_cell" data-channelname="' + data_name + '" data-channelid="' + data_id + '"></td>').html(
         '<img id="thumbnail_' + row_id + '_' + coloumn_id + '" class="stream_thumbnail" src="' + thumbnail + '"/> \
             <div class="stream_text" ' + infostyle + '> \
@@ -247,7 +240,7 @@ SceneSceneBrowser.loadDataRequest = function() {
             theUrl = 'https://api.twitch.tv/kraken/users/' + encodeURIComponent(Config.data.userid) + '/follows/channels?sortby=last_broadcast&direction=desc&limit=' + SceneSceneBrowser.ItemsLimit + '&offset=' + offset;
         }
         else {
-            theUrl = 'https://api.twitch.tv/kraken/streams?language=pt-br&limit=' + SceneSceneBrowser.ItemsLimit + '&offset=' + offset;
+            theUrl = 'https://api.twitch.tv/kraken/streams?limit=' + SceneSceneBrowser.ItemsLimit + '&offset=' + offset;
         }
 
         xmlHttp.ontimeout = function() {};
