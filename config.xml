@@ -12,7 +12,7 @@
   <ver>3.9.3</ver>
   <mgrver/>
   <fullwidget>y</fullwidget>
-  <type>develop</type>
+  <type>user</type>
   <srcctl>y</srcctl>
   <ticker>n</ticker>
   <childlock>n</childlock>
