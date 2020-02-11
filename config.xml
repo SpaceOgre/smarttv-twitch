@@ -7,12 +7,12 @@
   <BigThumbIcon>icon/icon_115_95.png</BigThumbIcon>
   <ListIcon>icon/icon_85_70.png</ListIcon>
   <BigListIcon>icon/icon_95_78.png</BigListIcon>
-  <category/>
+  <category>Videos</category>
   <autoUpdate>n</autoUpdate>
   <ver>3.9.3</ver>
   <mgrver/>
   <fullwidget>y</fullwidget>
-  <type>user</type>
+  <type>develop</type>
   <srcctl>y</srcctl>
   <ticker>n</ticker>
   <childlock>n</childlock>
