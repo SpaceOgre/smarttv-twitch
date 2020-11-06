@@ -1,3 +1,6 @@
+# Does not work! 
+Sadly the app does no longer work since twitch have done changes on their side. It would probably be possible to fix but I don't have the time for that atm. 
+
 ## About
 Unofficial app for legacy Samsung SmartTV's which plays Twitch live broadcasts.
 
